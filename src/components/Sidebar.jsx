@@ -53,6 +53,16 @@ const Sidebar = () => {
           );
         })}
       </ul>
+      <ul className="flex flex-col w-auto">
+        {secondaryLinks.map(({ icon, name }) => {
+          return (
+            <li key={name} className="flex flex-row pl-6 py-3 text-2xl gap-4 hover:bg-zinc-600">
+              <a href="#">{icon}</a>
+              <span className="tracking-wider">{name}</span> {/* Render the link icon */}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };
