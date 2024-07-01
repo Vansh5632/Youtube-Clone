@@ -7,14 +7,12 @@ import { CiBellOn } from "react-icons/ci";
 import profile from '../assets/profile.png'
 import Sidebar from "./Sidebar";
 
-const Navbar = () => {
-    const [visbleComponent,setVisibleComponent] = useState(null);
+const Navbar = ({toggleSidebar}) => {
     return (
         <div className="flex justify-between items-center bg-[#212121] opacity-95 h-16 px-3 sticky">
             <div className="flex gap-8 items-center text-2xl text-white">
                 <div className="h-13 w-15">
-                    <RxHamburgerMenu className="text-white" onClick={()=> setVisibleComponent('A')}/>
-                        {visbleComponent === 'A' && <Sidebar/>}
+                    <RxHamburgerMenu className="text-white" onClick={toggleSidebar}/>
                 </div>
                 <div className="h-10 w-14 flex">
                     <img src={image} alt=""/>

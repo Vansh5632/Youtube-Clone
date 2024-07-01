@@ -8,7 +8,7 @@ import {
 } from "react-icons/md";
 import { SiYoutubeshorts } from "react-icons/si";
 
-const Sidebar = () => {
+const Sidebar = ({isOpen,toggleSidebar}) => {
   // Define an array of main links
   const mainLinks = [
     {
@@ -42,7 +42,8 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="w-2/12 bg-[#212121] h-screen  overflow-auto pb-8">
+    //isme ek isOpen prop pass kiya agar open he toh first command nahi toh second wali 
+    <div className={`w-2/12 bg-[#212121] h-screen  overflow-auto pb-8  ${isOpen ? 'translate-x-0': '-translate-x-full'} transition-transform duration-300 ease-in-out z-50`}>
       <ul className="flex flex-col border-b-1 border-gray-700 w-auto">
         {mainLinks.map(({ icon, name }) => {
           return (
