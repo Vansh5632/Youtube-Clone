@@ -10,24 +10,26 @@ export const getHomePageVideos = createAsyncThunk(
     const {
       youtubeApp: { nextPageToken: nextPageTokenFromState, videos },
     } = getState();
+
     const params = {
       query: "technology",
       per_page: 20,
-      page: isNext ? nextPageTokenFromState : 1
+      page: isNext ? nextPageTokenFromState : 1,
     };
 
     try {
       const response = await axios.get(`https://api.vimeo.com/videos`, {
         params,
         headers: {
-          Authorization: `Bearer ${VIMEO_ACCESS_TOKEN}`
-        }
+          Authorization: `Bearer ${VIMEO_ACCESS_TOKEN}`,
+        },
       });
-      const items = response.data.data; // Note: Vimeo's response structure is different from YouTube's
+
+      const items = response.data.data;
       console.log(items);
 
       const parsedData = await parseData(items);
-      const nextPageToken = response.data.page + 1; // Increment page number for pagination
+      const nextPageToken = response.data.page + 1;
 
       return { parsedData, nextPageToken };
     } catch (error) {
