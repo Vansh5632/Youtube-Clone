@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from 'axios'
-const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_KEY;
+import axios from 'axios';
+import parseData from "../../utils/parseData";
+
+const VIMEO_ACCESS_TOKEN = '8c44f20c39503e1ebbbb7c04a0658dab';
 
 export const getHomePageVideos = createAsyncThunk(
   "youtube/App/homePageVideos",
@@ -8,12 +10,29 @@ export const getHomePageVideos = createAsyncThunk(
     const {
       youtubeApp: { nextPageToken: nextPageTokenFromState, videos },
     } = getState();
-    const response = await axios.get(`https://youtube.googleapis.com/youtube/v3/search?maxResults=20&q="gaming"&key=${API_KEY}&part=snippet&type=video`);
-    // console.log(response.data.items);
+    const params = {
+      query: "technology",
+      per_page: 20,
+      page: isNext ? nextPageTokenFromState : 1
+    };
 
-    const items = response.data.items;
-    console.log(items);
+    try {
+      const response = await axios.get(`https://api.vimeo.com/videos`, {
+        params,
+        headers: {
+          Authorization: `Bearer ${VIMEO_ACCESS_TOKEN}`
+        }
+      });
+      const items = response.data.data; // Note: Vimeo's response structure is different from YouTube's
+      console.log(items);
 
-    const parseData = await parseData(items);
+      const parsedData = await parseData(items);
+      const nextPageToken = response.data.page + 1; // Increment page number for pagination
+
+      return { parsedData, nextPageToken };
+    } catch (error) {
+      console.error("Error fetching Vimeo videos:", error);
+      throw error;
+    }
   }
 );
