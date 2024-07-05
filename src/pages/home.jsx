@@ -11,17 +11,18 @@ const Home = () => {
   };
 
   const dispatch = useAppDispatch();
-  const videos = useAppSelector((state)=>state.youtubeApp.videos);
+  const video = useAppSelector((state)=>state.youtubeApp.video);
 
   useEffect(()=>{
     dispatch(getHomePageVideos(false));
+    console.log(video);
   },[dispatch])
 
   return (
     <div>
       <Navbar toggleSidebar={toggleSidebar} />
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-     
+
     </div>
   );
 };
